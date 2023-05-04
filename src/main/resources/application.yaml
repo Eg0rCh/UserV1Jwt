@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sec12?currentSchema=sec12
+    username: postgres
+    password: MMspi3KB>H
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: always
+      continue-on-error: false
+      #data-locations: classpath:demo_data.sql
+  liquibase:
+    change-log: classpath:liquibase/db.changelog.yaml
+    enabled: true
+    default-schema: sec12
+security:
+  jwt:
+    secret: YXNkcGZvam5hZGxma2puZ2J4b2NpdXl2Z2d3bGFqa2Vicm5sdGtqZGF1ZmhncGlvc2R1ZmhsYWtkamZiZ2xranZoeXpjbGtqaHNkZg==
+    access: 3600000
+    refresh: 2592000000
