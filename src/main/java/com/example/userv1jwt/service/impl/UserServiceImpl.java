@@ -5,16 +5,21 @@ import com.example.userv1jwt.domain.user.Role;
 import com.example.userv1jwt.domain.user.User;
 import com.example.userv1jwt.repository.UserRepository;
 import com.example.userv1jwt.service.UserService;
+import com.example.userv1jwt.web.dto.user.UserDto;
+import com.example.userv1jwt.web.mappers.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+    private UserMapper userMapper;
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -63,6 +68,16 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void delete(Long id) {
         userRepository.delete(id);
+    }
+
+    public List<UserDto> getAllUsers() {
+
+        List<User> users =  userRepository.findAllUsers();
+        List<UserDto> userDtos = new ArrayList<UserDto>();
+        for (User user : users) {
+            userDtos.add(userMapper.toDto(user));
+        }
+        return userDtos;
     }
 
 }
