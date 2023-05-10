@@ -110,7 +110,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void create(User user) {
+    public User create(User user) {
         try {
             Connection connection = dataSourceConfig.getConnection();
             PreparedStatement statement = connection.prepareStatement(CREATE, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -125,6 +125,7 @@ public class UserRepositoryImpl implements UserRepository {
         } catch (SQLException throwables) {
             throw new ResourceMappingException("Exception while creating user.");
         }
+        return user;
     }
 
     @Override

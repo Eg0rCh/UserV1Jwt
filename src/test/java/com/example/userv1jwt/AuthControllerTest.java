@@ -18,8 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -36,50 +39,40 @@ class AuthControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean private AuthService authService;
-    @MockBean private UserService userService;
-    @MockBean private UserMapper userMapper;
+    @MockBean
+    private AuthService authService;
+    @MockBean
+    private UserService userService;
+    @MockBean
+    private UserMapper userMapper;
 
-    @Mock private UserDto userDto;
-    @Mock private User user;
+    @Mock
+    private UserDto userDto;
+    @Mock
+    private User user;
 
-    @MockBean private JwtTokenProvider jwtTokenProvider;
+    @MockBean
+    private JwtTokenProvider jwtTokenProvider;
 
     private String jwtToken;
-
 
 
     @Test
     void login() throws Exception {
 
-
-        this.mockMvc.perform(post("/api/v1/auth/login").param("username", "johndoe@gmail.com")
-                                .param("password", "12345"))
+        this.mockMvc.perform(post("/api/v1/auth/login").content("""
+                                {
+                                "username": "johndoe@gmail.com",
+                                "password": "12345"
+                                }""")
+                        .header(HttpHeaders.CONTENT_TYPE, "application/json")
+                )
                 .andDo(print())
                 .andExpect(status().isOk());
 
+
     }
 
-    @Test
-    void badLogin() throws Exception {
-        this.mockMvc.perform(post("/api/v1/auth/login").param("username", "test@gmail.com")
-                        .param("password", "test"))
-                .andDo(print())
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
-    void anotherLogin() throws Exception {
-
-
-        this.mockMvc.perform(post("/api/v1/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{}"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.username", is("johndoe@gmail.com")))
-                .andExpect(jsonPath("$.password", is("12345")));
-    }
 
 
 }

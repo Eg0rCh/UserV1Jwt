@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository {
-    Optional<User> findById(Long id);
+    Optional<User> findById(Long id); // test
     Optional<User> findByUsername(String username);
 
-    void update(User user);
-    void create(User user);
+    void update(User user); // test
+    User create(User user);  // test
 
     void insertUserRole(@Param("userId") Long userId, @Param("role") Role role);
     void delete(Long id);
