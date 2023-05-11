@@ -14,6 +14,9 @@ public class RepositoryTest extends BaseSpringIntegrationTest{
     @Test
     public void testCreate() {
         var user = new User();
+        user.setName("Egor");
+        user.setUsername("username");
+        user.setPassword("password");
 
         User result = userRepository.create(user);
 

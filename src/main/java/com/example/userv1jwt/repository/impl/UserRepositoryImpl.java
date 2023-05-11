@@ -123,7 +123,7 @@ public class UserRepositoryImpl implements UserRepository {
                 user.setId(rs.getLong(1));
             }
         } catch (SQLException throwables) {
-            throw new ResourceMappingException("Exception while creating user.");
+            throw new RuntimeException("Exception while creating user.", throwables);
         }
         return user;
     }
